@@ -10,3 +10,4 @@ auth.json
 *.log
 playwright-report/
 test-results/
+old-recordings/
