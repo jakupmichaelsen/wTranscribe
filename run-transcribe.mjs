@@ -7,14 +7,15 @@ const args = process.argv.slice(2);
 const HEADLESS = args.includes('--headless');
 
 const AUDIO_FILE = args.find((arg) => !arg.startsWith('--'));
+const AUDIO_PATH = path.resolve(AUDIO_FILE);
 
 if (!AUDIO_FILE) {
   console.error('Usage: node run-transcribe.mjs [--headless] "/path/to/audio-file.mp3"');
   process.exit(1);
 }
 
-if (!fs.existsSync(AUDIO_FILE)) {
-  console.error(`Audio file not found: ${AUDIO_FILE}`);
+if (!fs.existsSync(AUDIO_PATH)) {
+  console.error(`Audio file not found: ${AUDIO_PATH}`);
   process.exit(1);
 }
 
@@ -251,7 +252,7 @@ try {
   const fileChooser = await fileChooserPromise;
 
   console.log(`Uploading audio file: ${AUDIO_FILE}`);
-  await fileChooser.setFiles(AUDIO_FILE);
+  await fileChooser.setFiles(AUDIO_PATH);
 
   console.log('Audio file submitted. Waiting for Add to document button...');
   const addFrame = await findFrameByLocator(
