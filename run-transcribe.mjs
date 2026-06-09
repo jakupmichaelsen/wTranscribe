@@ -1,26 +1,31 @@
 import { chromium } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 const args = process.argv.slice(2);
 
-const HEADLESS = args.includes('--headless');
+const HEADLESS = !args.includes('--headed');
 
 const AUDIO_FILE = args.find((arg) => !arg.startsWith('--'));
-const AUDIO_PATH = path.resolve(AUDIO_FILE);
 
 if (!AUDIO_FILE) {
-  console.error('Usage: node run-transcribe.mjs [--headless] "/path/to/audio-file.mp3"');
+  console.error('Usage: node run-transcribe.mjs [--headed] "/path/to/audio-file.mp3"');
   process.exit(1);
 }
+
+const AUDIO_PATH = path.resolve(AUDIO_FILE);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 if (!fs.existsSync(AUDIO_PATH)) {
   console.error(`Audio file not found: ${AUDIO_PATH}`);
   process.exit(1);
 }
 
-const PROFILE_DIR = '/home/jakup/Transcription/word-profile';
-const OUTPUT_DIR = '/home/jakup/Transcription';
+const PROFILE_DIR = path.join(__dirname, 'word-profile');
+const OUTPUT_DIR = __dirname;
 
 // Change to /Danish \(Denmark\)/i if needed.
 const TRANSCRIPTION_LANGUAGE = /English \(United States\)/i;
