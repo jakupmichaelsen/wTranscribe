@@ -1,0 +1,15 @@
+{
+  "name": "transcription-automation",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "auth": "playwright codegen --user-data-dir=./word-profile https://www.office.com/",
+    "record": "playwright codegen --user-data-dir=./word-profile --output=transcribe.spec.js https://word.new",
+    "build-runner": "node build-runner.mjs",
+    "run": "node run-transcribe.mjs",
+    "rerun": "npm run build-runner && npm run run"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.0.0"
+  }
+}

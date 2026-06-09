@@ -1,0 +1,12 @@
+node_modules/
+word-profile/
+auth.json
+*.odt
+*.docx
+*.mp3
+*.wav
+*.m4a
+*.webm
+*.log
+playwright-report/
+test-results/
