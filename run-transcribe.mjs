@@ -25,7 +25,12 @@ if (!fs.existsSync(AUDIO_PATH)) {
 }
 
 const PROFILE_DIR = path.join(__dirname, 'word-profile');
-const OUTPUT_DIR = __dirname;
+
+function getOutputPathFromAudio(audioPath) {
+  const audioDir = path.dirname(audioPath);
+  const audioBase = path.basename(audioPath, path.extname(audioPath));
+  return path.join(audioDir, `${audioBase}.odt`);
+}
 
 // Change to /Danish \(Denmark\)/i if needed.
 const TRANSCRIPTION_LANGUAGE = /English \(United States\)/i;
@@ -339,8 +344,7 @@ try {
   const popup = await popupPromise;
   const download = await downloadPromise;
 
-  const suggested = download.suggestedFilename();
-  const outputPath = path.join(OUTPUT_DIR, suggested);
+  const outputPath = getOutputPathFromAudio(AUDIO_PATH);
 
   await download.saveAs(outputPath);
 
